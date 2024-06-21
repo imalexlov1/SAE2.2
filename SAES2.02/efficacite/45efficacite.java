@@ -1,83 +1,130 @@
-//18efficacite.java
+//45efficacite.java
 
 public class Main {
     public static String RLE(String in) {
         int nbite=0;
-        if (in == null || in.isEmpty()) {
+        if (in.isEmpty()) {
             nbite+=1;
             return "";
         }
-        StringBuilder resultat = new StringBuilder();
-        int cpt = 1;
-        for (int i = 1; i < in.length(); i++) {
+
+        StringBuilder out = new StringBuilder();
+        int i = 0;
+
+        while (i < in.length()) {
             nbite+=1;
-            if (in.charAt(i) != in.charAt(i - 1) || cpt >= 9) {
+            char c = in.charAt(i);
+            int count = 1;
+            i++;
+
+            while (i < in.length() && in.charAt(i) == c && count < 9) {
                 nbite+=1;
-                resultat.append(cpt).append(in.charAt(i - 1));
-                cpt = 1;
-            } else {
-                nbite+=1;
-                cpt++;
+                count++;
+                i++;
             }
-        }
-        resultat.append(cpt).append(in.charAt(in.length() - 1));
-        System.out.println(nbite);
-        return resultat.toString();
-    }
 
-    public static String RLE(String in, int iteration)  {
-        int nbite=0;
-        if (iteration < 1) {
-            nbite+=1;
-            System.out.println("Iteration doit être >= 1");
-        }
-        String resultat = in;
-        for (int i = 0; i < iteration; i++) {
-            nbite+=1;
-            resultat = RLE(resultat);
-        }
-        System.out.println(nbite);
-        return resultat;
-    }
-
-    public static String unRLE(String in)  {
-        int nbite=0;
-        if (in == null || in.isEmpty()) {
-            nbite+=1;
-            return "";
-        }
-        StringBuilder resultat = new StringBuilder();
-        int cpt = 0;
-        for (char c : in.toCharArray()) {
-            nbite+=1;
-            if (Character.isDigit(c)) {
+            if (count >= 9) {
                 nbite+=1;
-                cpt = cpt * 10 + Character.getNumericValue(c);
+                out.append("9").append(c);
             } else {
                 nbite+=1;
-                for (int i = 0; i < cpt; i++) {
-                    nbite+=1;
-                    resultat.append(c);
-                }
-                cpt = 0;
+                out.append(count).append(c);
             }
         }
         System.out.println(nbite);
-        return resultat.toString();
+        return out.toString();
     }
 
-    public static String unRLE(String in, int iteration)  {
+
+    public static String RLE(String in, int iterations) {
         int nbite=0;
-        if (iteration < 1) System.out.println("Iteration devrait être >= 1"); nbite+=1;
         String result = in;
-        for (int i = 0; i < iteration; i++) {
+
+        for (int iter = 0; iter < iterations; iter++) {
             nbite+=1;
-            result = unRLE(result);
+            StringBuilder out = new StringBuilder();
+            int i = 0;
+
+            while (i < result.length()) {
+                nbite+=1;
+                char c = result.charAt(i);
+                int count = 1;
+                i++;
+
+                while (i < result.length() && result.charAt(i) == c && count < 9) {
+                    nbite+=1;
+                    count++;
+                    i++;
+                }
+
+                if (count >= 9) {
+                    nbite+=1;
+                    out.append("9").append(c);
+                } else {
+                    nbite+=1;
+                    out.append(count).append(c);
+                }
+            }
+
+            result = out.toString();
         }
         System.out.println(nbite);
         return result;
     }
 
+
+    public static String unRLE(String in) {
+        int nbite=0;
+        if (in.isEmpty()) {
+            nbite+=1;
+            return "";
+        }
+
+        StringBuilder out = new StringBuilder();
+        int i = 0;
+
+        while (i < in.length()) {
+            nbite+=1;
+            int count = Character.getNumericValue(in.charAt(i));
+            char c = in.charAt(i + 1);
+            i += 2;
+
+            for (int j = 0; j < count; j++) {
+                nbite+=1;
+                out.append(c);
+            }
+        }
+        System.out.println(nbite);
+        return out.toString();
+    }
+
+
+    public static String unRLE(String in, int iterations) {
+        int nbite=0;
+        String result = in;
+
+        for (int iter = 0; iter < iterations; iter++) {
+            nbite+=1;
+            StringBuilder out = new StringBuilder();
+            int i = 0;
+
+            while (i < result.length()) {
+                nbite+=1;
+                int count = Character.getNumericValue(result.charAt(i));
+                char c = result.charAt(i + 1);
+                i += 2;
+
+                for (int j = 0; j < count; j++) {
+                    nbite+=1;
+                    out.append(c);
+                }
+            }
+
+            result = out.toString();
+        }
+        System.out.println(nbite);
+        return result;
+    }
 
 
   public static void main(String[] args){
@@ -127,8 +174,6 @@ public class Main {
     System.out.print ("abc -> ");System.out.println(unRLE("311a311b311c", 3));
     System.out.print ("1111aaaaaaaaa1111aaaaaaaaaaaa -> ");System.out.println(unRLE("919a919a3a", 2)); // Séquence étendue
         }
-
-
 } 
 
 

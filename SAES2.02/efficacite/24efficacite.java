@@ -1,95 +1,83 @@
-//39efficacite.java
+//24efficacite.java
 
 public class Main {
     public static String RLE(String in) {
         int nbite=0;
-        if (in == null || in.length() == 0) {
+
+        if (in == null || in.isEmpty()) {
             nbite+=1;
             return "";
         }
 
-        StringBuilder sortie = new StringBuilder();
-        char charPrecedent = in.charAt(0);
-        int nbRep = 1;
+        String newChaine = "";
+        int cptChar = 1;
+        char charInit = in.charAt(0);
 
         for (int i = 1; i < in.length(); i++) {
             nbite+=1;
-            if (in.charAt(i) == charPrecedent) {
+
+            if (in.charAt(i) == charInit && cptChar < 9) {
                 nbite+=1;
-                nbRep++;
-                if (nbRep == 9) {
-                    nbite+=1;
-                    sortie.append(nbRep).append(charPrecedent);
-                    nbRep = 0;
-                }
+                cptChar++;
+
             } else {
                 nbite+=1;
-                sortie.append(nbRep).append(charPrecedent);
-                charPrecedent = in.charAt(i);
-                nbRep = 1;
+
+                if (cptChar > 9) {
+                    nbite+=1;
+                    cptChar = 1;
+                }else{
+                    nbite+=1;
+                    newChaine += cptChar + "" + charInit;
+                    charInit = in.charAt(i);
+                    cptChar = 1;
+                }
             }
         }
-        sortie.append(nbRep).append(charPrecedent);
+        newChaine += cptChar + "" + charInit;
         System.out.println(nbite);
-        return sortie.toString();
+        return newChaine;
     }
 
-
-    public static String RLE(String in, int iteration) {
+    public static String RLE(String in, int iteration)  {
         int nbite=0;
-        if (iteration <= 0 || in == null || in.length() == 0) {
+        for(int i = 0; i < iteration; i++){
             nbite+=1;
-            return in;
-        }
-
-        String sortie = in;
-        for (int i = 0; i < iteration; i++){
-            nbite+=1;
-            sortie = RLE(sortie);
+            in = RLE(in);
         }
         System.out.println(nbite);
-        return sortie;
+        return in;
     }
 
     public static String unRLE(String in)  {
         int nbite=0;
-        if (in == null || in.length() == 0) {
-            nbite+=1;
-            return "";
-        }
-
-        StringBuilder sortie = new StringBuilder();
+        String newChaine = "";
 
         for (int i = 0; i < in.length(); i += 2) {
             nbite+=1;
-            int nbRep = Character.getNumericValue(in.charAt(i));
-            char charPrecedent = in.charAt(i + 1);
 
-            for (int j = 0; j < nbRep; j++) {
+            int count = Character.getNumericValue(in.charAt(i));
+            char character = in.charAt(i + 1);
+
+            for (int j = 0; j < count; j++) {
                 nbite+=1;
-                sortie.append(charPrecedent);
+                newChaine += character;
             }
         }
         System.out.println(nbite);
-        return sortie.toString();
+        return newChaine;
     }
 
-    public static String unRLE(String in, int iteration) {
-        int nbite=0;
-        if (iteration <= 0 || in == null || in.length() == 0) {
-            nbite+=1;
-            return in;
-        }
 
-        String sortie = in;
-        for (int i = 0; i < iteration; i++){
+    public static String unRLE(String in, int iteration)  {
+        int nbite=0;
+        for(int i = 0; i < iteration; i++){
             nbite+=1;
-            sortie = unRLE(sortie);
+            in = unRLE(in);
         }
         System.out.println(nbite);
-        return sortie;
+        return in;
     }
-
 
 
   public static void main(String[] args){

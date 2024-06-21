@@ -1,3 +1,4 @@
+#32simplicite
 def RLE(chaine):
   #nombre de fois le caractere
   cpt = 1

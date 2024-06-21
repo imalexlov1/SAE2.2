@@ -1,4 +1,4 @@
-
+#49simplicite
 def RLE(chaine_de_caractere):
     if len(chaine_de_caractere) == 0:
         return ""

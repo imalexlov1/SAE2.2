@@ -1,4 +1,4 @@
-
+#37simplicite
 def RLE(s):
 
     """Fonction permet de prendre une chaîne de caractères en entrée et retourne cette chaîne de caractères encodée en RLE"""
